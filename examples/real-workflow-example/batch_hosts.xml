@@ -2,61 +2,1150 @@
 <!DOCTYPE platform SYSTEM "http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd">
 <platform version="4.1">
     <zone id="AS0" routing="Full">
-        <host id="Host1" speed="1000Gf" core="10"/>
-        <host id="Host2" speed="1000Gf" core="10"/>
-        <host id="Host3" speed="1000Gf" core="10">
-            <disk id="large_disk" read_bw="100MBps" write_bw="100MBps">
-                <prop id="size" value="5000GiB"/>
-                <prop id="mount" value="/"/>
-            </disk>
+        <host id="m5.large" speed="1Gf" core="2">
+            <prop id="ram" value="8GB"/>
         </host>
-        <host id="Host4" speed="1000Gf" core="10"/>
+        <host id="m5.xlarge" speed="1Gf" core="4">
+            <prop id="ram" value="16GB"/>
+        </host>
+        <host id="m5.2xlarge" speed="1Gf" core="8">
+            <prop id="ram" value="32GB"/>
+        </host>
+        <host id="m5a.large" speed="1Gf" core="2">
+            <prop id="ram" value="8GB"/>
+        </host>
+        <host id="m5a.xlarge" speed="1Gf" core="4">
+            <prop id="ram" value="16GB"/>
+        </host>
+        <host id="m5a.2xlarge" speed="1Gf" core="8">
+            <prop id="ram" value="32GB"/>
+        </host>
+        <host id="m5zn.large" speed="1Gf" core="2">
+            <prop id="ram" value="8GB"/>
+        </host>
+        <host id="m5zn.xlarge" speed="1Gf" core="4">
+            <prop id="ram" value="16GB"/>
+        </host>
+        <host id="m5zn.2xlarge" speed="1Gf" core="8">
+            <prop id="ram" value="32GB"/>
+        </host>
+        <host id="c5.xlarge" speed="1Gf" core="4">
+            <prop id="ram" value="8GB"/>
+        </host>
+        <host id="c5.2xlarge" speed="1Gf" core="8">
+            <prop id="ram" value="16GB"/>
+        </host>
+        <host id="c5a.xlarge" speed="1Gf" core="4">
+            <prop id="ram" value="8GB"/>
+        </host>
+        <host id="c5a.2xlarge" speed="1Gf" core="8">
+            <prop id="ram" value="16GB"/>
+        </host>
+        <host id="r5.large" speed="1Gf" core="2">
+            <prop id="ram" value="16GB"/>
+        </host>
+        <host id="r5.xlarge" speed="1Gf" core="4">
+            <prop id="ram" value="32GB"/>
+        </host>
+        <host id="r5.2xlarge" speed="1Gf" core="8">
+            <prop id="ram" value="64GB"/>
+        </host>
+        <host id="r5a.large" speed="1Gf" core="2">
+            <prop id="ram" value="16GB"/>
+        </host>
+        <host id="r5a.xlarge" speed="1Gf" core="4">
+            <prop id="ram" value="32GB"/>
+        </host>
+        <host id="r5a.2xlarge" speed="1Gf" core="8">
+            <prop id="ram" value="64GB"/>
+        </host>
+        <host id="d3.xlarge" speed="1Gf" core="4">
+            <prop id="ram" value="32GB"/>
+        </host>
+        <host id="d3.2xlarge" speed="1Gf" core="8">
+            <prop id="ram" value="64GB"/>
+        </host>
+        <host id="i3.large" speed="1Gf" core="2">
+            <prop id="ram" value="15.25GB"/>
+        </host>
+        <host id="i3.xlarge" speed="1Gf" core="4">
+            <prop id="ram" value="30.5GB"/>
+        </host>
+        <host id="i3.2xlarge" speed="1Gf" core="8">
+            <prop id="ram" value="61GB"/>
+        </host>
+        <host id="z1d.large" speed="1Gf" core="2">
+            <prop id="ram" value="16GB"/>
+        </host>
+        <host id="z1d.xlarge" speed="1Gf" core="4">
+            <prop id="ram" value="32GB"/>
+        </host>
+        <host id="z1d.2xlarge" speed="1Gf" core="8">
+            <prop id="ram" value="64GB"/>
+        </host>
 
 
         <!-- A network link -->
-        <link id="network_link" bandwidth="5000GBps" latency="0us"/>
-        <!-- Host1's local "loopback" link...-->
-        <link id="loopback_Host1" bandwidth="1000EBps" latency="0us"/>
-        <!-- Host2's local "loopback" link...-->
-        <link id="loopback_Host2" bandwidth="1000EBps" latency="0us"/>
-        <!-- Host3's local "loopback" link...-->
-        <link id="loopback_Host3" bandwidth="1000EBps" latency="0us"/>
-        <!-- Host4's local "loopback" link...-->
-        <link id="loopback_Host4" bandwidth="1000EBps" latency="0us"/>
+        <link id="network_link_10Gbps" bandwidth="10GBps" latency="0us"/>
+        <link id="network_link_15Gbps" bandwidth="10GBps" latency="0us"/>
+        <link id="network_link_25Gbps" bandwidth="10GBps" latency="0us"/>
+
 
         <!-- The network link connects all hosts together -->
-        <route src="Host1" dst="Host2">
-            <link_ctn id="network_link"/>
+        <route dst="r5a.xlarge" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
         </route>
-        <route src="Host1" dst="Host3">
-            <link_ctn id="network_link"/>
+        <route dst="r5a.2xlarge" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
         </route>
-        <route src="Host1" dst="Host4">
-            <link_ctn id="network_link"/>
+        <route dst="m5.xlarge" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
         </route>
-        <route src="Host2" dst="Host3">
-            <link_ctn id="network_link"/>
+        <route dst="z1d.2xlarge" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
         </route>
-        <route src="Host2" dst="Host4">
-            <link_ctn id="network_link"/>
+        <route dst="c5a.2xlarge" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
         </route>
-        <route src="Host3" dst="Host4">
-            <link_ctn id="network_link"/>
+        <route dst="m5a.2xlarge" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.2xlarge" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.xlarge" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.xlarge" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.xlarge" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.large" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.large" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.2xlarge" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.xlarge" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.large" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.large" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.large" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.large" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="c5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.2xlarge" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.xlarge" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.2xlarge" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5a.2xlarge" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.2xlarge" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.2xlarge" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.xlarge" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.xlarge" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.xlarge" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.large" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.large" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.2xlarge" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.xlarge" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.large" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.large" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.large" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.large" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="r5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.xlarge" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.2xlarge" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5a.2xlarge" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.2xlarge" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.2xlarge" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.xlarge" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.xlarge" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.xlarge" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.large" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.large" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.2xlarge" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.xlarge" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.large" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.large" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.large" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.large" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="r5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.2xlarge" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5a.2xlarge" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.2xlarge" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.2xlarge" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.xlarge" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.xlarge" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.xlarge" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.large" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.large" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.2xlarge" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.xlarge" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.large" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.large" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.large" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.large" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="m5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5a.2xlarge" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.2xlarge" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.2xlarge" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.xlarge" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.xlarge" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.xlarge" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.large" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.large" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.2xlarge" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.xlarge" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.large" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.large" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.large" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.large" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="z1d.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.2xlarge" src="c5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.2xlarge" src="c5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.xlarge" src="c5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.xlarge" src="c5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.xlarge" src="c5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.large" src="c5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.large" src="c5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.2xlarge" src="c5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.xlarge" src="c5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.large" src="c5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.large" src="c5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.large" src="c5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.large" src="c5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="c5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="c5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="c5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="c5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="c5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="c5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="c5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="c5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.2xlarge" src="m5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.xlarge" src="m5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.xlarge" src="m5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.xlarge" src="m5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.large" src="m5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.large" src="m5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.2xlarge" src="m5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.xlarge" src="m5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.large" src="m5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.large" src="m5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.large" src="m5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.large" src="m5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="m5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="m5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="m5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="m5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="m5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="m5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="m5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="m5a.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.xlarge" src="m5zn.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.xlarge" src="m5zn.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.xlarge" src="m5zn.2xlarge">
+            <link_ctn id="network_link_15Gbps"/>
+        </route>
+        <route dst="m5a.large" src="m5zn.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.large" src="m5zn.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.2xlarge" src="m5zn.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.xlarge" src="m5zn.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.large" src="m5zn.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.large" src="m5zn.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.large" src="m5zn.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.large" src="m5zn.2xlarge">
+            <link_ctn id="network_link_25Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="m5zn.2xlarge">
+            <link_ctn id="network_link_25Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="m5zn.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="m5zn.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="m5zn.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="m5zn.2xlarge">
+            <link_ctn id="network_link_15Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="m5zn.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="m5zn.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="m5zn.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.xlarge" src="r5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.xlarge" src="r5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.large" src="r5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.large" src="r5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.2xlarge" src="r5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.xlarge" src="r5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.large" src="r5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.large" src="r5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.large" src="r5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.large" src="r5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="r5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="r5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="r5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="r5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="r5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="r5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="r5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="r5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.xlarge" src="z1d.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.large" src="z1d.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.large" src="z1d.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.2xlarge" src="z1d.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.xlarge" src="z1d.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.large" src="z1d.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.large" src="z1d.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.large" src="z1d.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.large" src="z1d.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="z1d.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="z1d.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="z1d.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="z1d.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="z1d.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="z1d.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="z1d.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="z1d.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.large" src="d3.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.large" src="d3.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.2xlarge" src="d3.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.xlarge" src="d3.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.large" src="d3.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.large" src="d3.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.large" src="d3.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.large" src="d3.xlarge">
+            <link_ctn id="network_link_15Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="d3.xlarge">
+            <link_ctn id="network_link_15Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="d3.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="d3.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="d3.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="d3.xlarge">
+            <link_ctn id="network_link_15Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="d3.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="d3.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="d3.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.large" src="m5a.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.2xlarge" src="m5a.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.xlarge" src="m5a.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.large" src="m5a.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.large" src="m5a.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.large" src="m5a.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.large" src="m5a.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="m5a.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="m5a.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="m5a.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="m5a.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="m5a.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="m5a.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="m5a.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="m5a.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.2xlarge" src="m5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.xlarge" src="m5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.large" src="m5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.large" src="m5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.large" src="m5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.large" src="m5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="m5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="m5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="m5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="m5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="m5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="m5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="m5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="m5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.xlarge" src="c5.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.large" src="c5.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.large" src="c5.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.large" src="c5.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.large" src="c5.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="c5.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="c5.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="c5.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="c5.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="c5.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="c5.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="c5.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="c5.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.large" src="m5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.large" src="m5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.large" src="m5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.large" src="m5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="m5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="m5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="m5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="m5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="m5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="m5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="m5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="m5a.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.large" src="r5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.large" src="r5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.large" src="r5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="r5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="r5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="r5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="r5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="r5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="r5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="r5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="r5.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.large" src="z1d.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.large" src="z1d.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="z1d.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="z1d.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="z1d.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="z1d.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="z1d.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="z1d.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="z1d.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="z1d.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.large" src="i3.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="i3.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="i3.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="i3.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="i3.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="i3.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="i3.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="i3.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="i3.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="m5zn.large">
+            <link_ctn id="network_link_25Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="m5zn.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="m5zn.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="m5zn.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="m5zn.large">
+            <link_ctn id="network_link_15Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="m5zn.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="m5zn.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="m5zn.large">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="m5zn.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="m5zn.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="m5zn.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="m5zn.xlarge">
+            <link_ctn id="network_link_15Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="m5zn.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="m5zn.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="m5zn.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="i3.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="i3.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="i3.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="i3.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="i3.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="i3.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="c5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="c5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="c5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="c5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="c5.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="m5.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="m5.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="m5.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="m5.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="d3.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="d3.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="d3.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="i3.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="i3.xlarge">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="r5.2xlarge">
+            <link_ctn id="network_link_10Gbps"/>
         </route>
 
-        <!-- Each loopback link connects each host to itself -->
-        <route src="Host1" dst="Host1">
-            <link_ctn id="loopback_Host1"/>
-        </route>
-        <route src="Host2" dst="Host2">
-            <link_ctn id="loopback_Host2"/>
-        </route>
-        <route src="Host3" dst="Host3">
-            <link_ctn id="loopback_Host3"/>
-        </route>
-        <route src="Host4" dst="Host4">
-            <link_ctn id="loopback_Host4"/>
-        </route>
-        
+
     </zone>
 </platform>
