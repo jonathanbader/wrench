@@ -2,6 +2,17 @@
 <!DOCTYPE platform SYSTEM "http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd">
 <platform version="4.1">
     <zone id="AS0" routing="Full">
+        <!-- Dummies for storage, wms and cloud service -->
+        <host id="Tremblay" speed="1000Gf" core="4"/>
+        <host id="Jupiter" speed="1000Gf" core="2"/>
+        <host id="Fafard" speed="1000Gf" core="1">
+            <disk id="large_disk" read_bw="40MBps" write_bw="40MBps">
+                <prop id="size" value="5000GiB"/>
+                <prop id="mount" value="/"/>
+            </disk>
+        </host>
+
+        <!-- regular execution hosts -->
         <host id="m5.large" speed="1Gf" core="2">
             <prop id="ram" value="8GB"/>
         </host>
@@ -89,6 +100,265 @@
         <link id="network_link_10Gbps" bandwidth="10GBps" latency="0us"/>
         <link id="network_link_15Gbps" bandwidth="10GBps" latency="0us"/>
         <link id="network_link_25Gbps" bandwidth="10GBps" latency="0us"/>
+
+
+        <!-- Extra routing for dummies -->
+        <route dst="c5a.xlarge" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.xlarge" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.2xlarge" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.xlarge" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.2xlarge" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5a.2xlarge" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.2xlarge" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.2xlarge" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.xlarge" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.xlarge" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.xlarge" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.large" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.large" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.2xlarge" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.xlarge" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.large" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.large" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.large" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.large" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="Jupiter" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="Tremblay" src="Fafard">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+
+
+        <route dst="c5a.xlarge" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.xlarge" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.2xlarge" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.xlarge" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.2xlarge" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5a.2xlarge" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.2xlarge" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.2xlarge" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.xlarge" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.xlarge" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.xlarge" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.large" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.large" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.2xlarge" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.xlarge" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.large" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.large" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.large" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.large" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="Tremblay" src="Jupiter">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+
+
+        <route dst="c5a.xlarge" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.xlarge" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.2xlarge" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.xlarge" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.2xlarge" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5a.2xlarge" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.2xlarge" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.2xlarge" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.xlarge" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.xlarge" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.xlarge" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.large" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.large" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.2xlarge" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5a.xlarge" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.large" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="z1d.large" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.large" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.large" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5zn.xlarge" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.2xlarge" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="c5.xlarge" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="m5.2xlarge" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="d3.2xlarge" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="i3.xlarge" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5.2xlarge" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
+        <route dst="r5a.large" src="Tremblay">
+            <link_ctn id="network_link_10Gbps"/>
+        </route>
 
 
         <!-- The network link connects all hosts together -->

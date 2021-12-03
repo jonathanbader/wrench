@@ -12,11 +12,13 @@
 
 #include "SimpleWMS.h"
 #include "scheduler/CloudStandardJobScheduler.h"
+#include "rapidcsv.h"
 #include <wrench/tools/pegasus/PegasusWorkflowParser.h>
+#include <fstream>
 
 
-static bool ends_with(const std::string& str, const std::string& suffix) {
-    return str.size() >= suffix.size() && 0 == str.compare(str.size()-suffix.size(), suffix.size(), suffix);
+static bool ends_with(const std::string &str, const std::string &suffix) {
+    return str.size() >= suffix.size() && 0 == str.compare(str.size() - suffix.size(), suffix.size(), suffix);
 }
 
 /**
@@ -29,8 +31,9 @@ static bool ends_with(const std::string& str, const std::string& suffix) {
  */
 int main(int argc, char **argv) {
 
-
-
+    // getting CSV
+    rapidcsv::Document doc("rankExports/ranks_methylseq_Stochastic Gradient Descent_3.csv");
+    std::cout << doc.GetCell<std::string>("rank", 1) << std::endl;
     /*
      * Declaration of the top-level WRENCH simulation object
      */
@@ -62,7 +65,7 @@ int main(int argc, char **argv) {
     wrench::Workflow *workflow;
     if (ends_with(workflow_file, "dax")) {
         workflow = wrench::PegasusWorkflowParser::createWorkflowFromDAX(workflow_file, "1000Gf");
-    } else if (ends_with(workflow_file,"json")) {
+    } else if (ends_with(workflow_file, "json")) {
         workflow = wrench::PegasusWorkflowParser::createWorkflowFromJSON(workflow_file, "1000Gf");
     } else {
         std::cerr << "Workflow file name must end with '.dax' or '.json'" << std::endl;
@@ -138,7 +141,7 @@ int main(int argc, char **argv) {
      */
     auto wms = simulation.add(
             new wrench::SimpleWMS(std::unique_ptr<wrench::CloudStandardJobScheduler>(
-                    new wrench::CloudStandardJobScheduler(storage_service)),
+                                          new wrench::CloudStandardJobScheduler(storage_service)),
                                   nullptr, compute_services, storage_services, wms_host));
 
     wms->addWorkflow(workflow);
@@ -169,7 +172,7 @@ int main(int argc, char **argv) {
      * These files are then staged on the storage service.
      */
     std::cerr << "Staging input files..." << std::endl;
-    for (auto const &f : workflow->getInputFiles()) {
+    for (auto const &f: workflow->getInputFiles()) {
         try {
             simulation.stageFile(f, storage_service);
         } catch (std::runtime_error &e) {
