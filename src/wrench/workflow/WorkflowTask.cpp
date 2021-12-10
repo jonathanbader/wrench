@@ -26,16 +26,17 @@ namespace wrench {
      * @brief Constructor
      *
      * @param id: the task id
+     * @param wfname: the name of the workflow
      * @param flops: the task's number of flops
      * @param min_cores: the minimum number of cores required for running the task
      * @param max_cores: the maximum number of cores that the task can use (infinity: ULONG_MAX)
      * @param spec: the multi-core parallel performance model
      * @param memory_requirement: memory_manager_service requirement in bytes
      */
-    WorkflowTask::WorkflowTask(const std::string id, const double flops, const unsigned long min_num_cores,
+    WorkflowTask::WorkflowTask(const std::string id, const std::string wfname, const double flops, const unsigned long min_num_cores,
                                const unsigned long max_num_cores,
                                const double memory_requirement) :
-            id(id), color(""), flops(flops),
+            id(id), wfname(wfname), color(""), flops(flops),
             min_num_cores(min_num_cores),
             max_num_cores(max_num_cores),
             memory_requirement(memory_requirement),
@@ -119,12 +120,25 @@ namespace wrench {
     }
 
     /**
+     * @brief Get the wfname of the task
+     *
+     * @return an wfname as a string
+     */
+    const std::string& WorkflowTask::getWFName() const {
+        return this->wfname;
+    }
+
+    /**
      * @brief Get the number of flops of the task
      *
      * @return a number of flops
      */
     double WorkflowTask::getFlops() const {
         return this->flops;
+    }
+
+    void WorkflowTask::setFlops(double flops) {
+        this->flops = flops;
     }
 
     /**

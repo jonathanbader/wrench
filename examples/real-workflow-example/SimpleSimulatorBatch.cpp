@@ -178,8 +178,13 @@ int main(int argc, char **argv) {
      */
     std::vector<wrench::SimulationTimestamp<wrench::SimulationTimestampTaskCompletion> *> trace;
     trace = simulation.getOutput().getTrace<wrench::SimulationTimestampTaskCompletion>();
+
     std::cerr << "Number of entries in TaskCompletion trace: " << trace.size() << std::endl;
     std::cerr << "Task in first trace entry: " << trace[0]->getContent()->getTask()->getID() << std::endl;
+
+    for (auto const &item : trace) {
+        std::cerr << "Task "  << item->getContent()->getTask()->getID() << " completed at time " << item->getDate()  << std::endl;
+    }
 
     return 0;
 }

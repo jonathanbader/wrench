@@ -232,6 +232,7 @@ namespace wrench {
             // Get the job attributes
             std::string id = job.attribute("id").value();
             std::string name = job.attribute("name").value();
+            std::string wfname = job.attribute("namespace").value();
             double runtime = std::strtod(job.attribute("runtime").value(), nullptr);
             unsigned long min_num_cores;
             unsigned long max_num_cores;
@@ -258,7 +259,7 @@ namespace wrench {
 
             // Create the task
             // If the DAX says num_procs = x, then we set min_cores=1, max_cores=x, ram = 0.0
-            task = workflow->addTask(id, runtime * flop_rate, min_num_cores, max_num_cores, 0.0);
+            task = workflow->addTask(id, wfname, runtime * flop_rate, min_num_cores, max_num_cores, 0.0);
 
             // Go through the children "uses" nodes
             for (pugi::xml_node uses = job.child("uses"); uses; uses = uses.next_sibling("uses")) {

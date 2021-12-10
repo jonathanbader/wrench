@@ -33,7 +33,11 @@ namespace wrench {
     public:
         const std::string& getID() const;
 
+        const std::string& getWFName() const;
+
         double getFlops() const;
+
+        void setFlops(double flops);
 
         unsigned long getMinNumCores() const;
 
@@ -257,6 +261,7 @@ namespace wrench {
         friend class Workflow;
 
         std::string id;                    // Task ID
+        std::string wfname;
         std::string cluster_id;            // ID for clustered task
         std::string color;                 // A RGB color formatted as "#rrggbb"
         double flops;                      // Number of flops

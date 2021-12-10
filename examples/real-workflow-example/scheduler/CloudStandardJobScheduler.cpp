@@ -9,6 +9,10 @@
  */
 
 #include "CloudStandardJobScheduler.h"
+
+#include <fstream>
+
+#include <nlohmann/json.hpp>
 //#include <climits>
 //#include <numeric>
 
@@ -38,6 +42,12 @@ namespace wrench {
         if (cloud_service == nullptr) {
             throw std::runtime_error("This example Cloud Scheduler can only handle a cloud service");
         }
+
+        // read runtimes_pp.json
+        std::ifstream ifs("runtimes_pp.json");
+        nlohmann::json runtimes = nlohmann::json::parse(ifs);
+
+        std::cout << "Number of items in runtimes: " << runtimes.size() << std::endl;
 
         WRENCH_INFO("There are %ld ready tasks to schedule", tasks.size());
 
@@ -91,6 +101,28 @@ namespace wrench {
             // If no VM is available to run the task, then nevermind
             if (picked_vm_cs == nullptr) {
                 continue;
+            }
+
+            // loop over runtimes
+            for (auto runtime:runtimes) {
+                // skip if namespace match
+                std::string ns = runtime["namespace"];
+                if (ns.find(task.getWFName()) == std::string::npos) {
+                    continue;
+                }
+                // skip if machine typ mismatch
+                
+                if (runtime["instanceType"] != "") {
+                    continue;
+                }
+                
+                // if wfname match
+                if (runtime["wfName"] != "") {
+                    // convert runtime to flops runtime(unit?) * flops (1000GF)
+                    // set flops on task (needs setter, since flops are private)
+                    continue;
+                }
+                    
             }
 
             WRENCH_INFO("Submitting task '%s' for execution on a VM", task->getID().c_str());
