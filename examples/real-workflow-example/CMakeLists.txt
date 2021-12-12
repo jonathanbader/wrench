@@ -17,7 +17,7 @@ set(SOURCE_FILES
 
 # cloud example
 set(APP_CLOUD_FILES SimpleSimulatorCloud.cpp)
-add_executable(wrench-example-real-workflow-cloud ${SOURCE_FILES} ${APP_CLOUD_FILES} rapidcsv.h)
+add_executable(wrench-example-real-workflow-cloud ${SOURCE_FILES} ${APP_CLOUD_FILES} rapidcsv.h RankLookup.cpp RankLookup.h)
 if (ENABLE_BATSCHED)
     find_library(ZMQ_LIBRARY NAMES zmq)
     target_link_libraries(wrench-example-real-workflow-cloud wrenchpegasusworkflowparser wrench ${SimGrid_qLIBRARY} ${PUGIXML_LIBRARY} ${ZMQ_LIBRARY})

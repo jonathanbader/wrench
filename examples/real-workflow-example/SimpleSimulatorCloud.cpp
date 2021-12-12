@@ -13,6 +13,7 @@
 #include "SimpleWMS.h"
 #include "scheduler/CloudStandardJobScheduler.h"
 #include "rapidcsv.h"
+#include "RankLookup.h"
 #include <wrench/tools/pegasus/PegasusWorkflowParser.h>
 #include <fstream>
 
@@ -34,6 +35,8 @@ int main(int argc, char **argv) {
     // getting CSV
     rapidcsv::Document doc("rankExports/ranks_methylseq_Stochastic Gradient Descent_3.csv");
     std::cout << doc.GetCell<std::string>("rank", 1) << std::endl;
+    RankLookup test(doc);
+    RankLookup test2 = test.filter("rank", 1);
     /*
      * Declaration of the top-level WRENCH simulation object
      */
