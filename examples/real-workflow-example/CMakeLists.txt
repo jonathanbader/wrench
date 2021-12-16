@@ -16,14 +16,14 @@ set(SOURCE_FILES
         )
 
 # cloud example
-set(APP_CLOUD_FILES SimpleSimulatorCloud.cpp)
-add_executable(wrench-example-real-workflow-cloud ${SOURCE_FILES} ${APP_CLOUD_FILES} rapidcsv.h RankLookup.cpp RankLookup.h)
+set(APP_CLOUD_FILES rapidcsv.h RankLookup.h RankLookup.cpp SimpleSimulatorCloud.cpp)
+add_executable(wrench-example-real-workflow-cloud ${SOURCE_FILES} ${APP_CLOUD_FILES})
 if (ENABLE_BATSCHED)
     find_library(ZMQ_LIBRARY NAMES zmq)
     target_link_libraries(wrench-example-real-workflow-cloud wrenchpegasusworkflowparser wrench ${SimGrid_qLIBRARY} ${PUGIXML_LIBRARY} ${ZMQ_LIBRARY})
-else()
+else ()
     target_link_libraries(wrench-example-real-workflow-cloud wrenchpegasusworkflowparser wrench ${SimGrid_LIBRARY} ${PUGIXML_LIBRARY})
-endif()
+endif ()
 
 install(TARGETS wrench-example-real-workflow-cloud DESTINATION bin)
 
@@ -33,9 +33,9 @@ add_executable(wrench-example-real-workflow-batch ${SOURCE_FILES} ${APP_BATCH_FI
 if (ENABLE_BATSCHED)
     find_library(ZMQ_LIBRARY NAMES zmq)
     target_link_libraries(wrench-example-real-workflow-batch wrenchpegasusworkflowparser wrench ${SimGrid_LIBRARY} ${PUGIXML_LIBRARY} ${ZMQ_LIBRARY})
-else()
+else ()
     target_link_libraries(wrench-example-real-workflow-batch wrenchpegasusworkflowparser wrench ${SimGrid_LIBRARY} ${PUGIXML_LIBRARY})
-endif()
+endif ()
 install(TARGETS wrench-example-real-workflow-batch DESTINATION bin)
 
 #add_custom_command(TARGET wrench-example-real-workflow-cloud POST_BUILD

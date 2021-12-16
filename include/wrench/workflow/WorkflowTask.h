@@ -31,9 +31,9 @@ namespace wrench {
     class WorkflowTask {
 
     public:
-        const std::string& getID() const;
+        const std::string &getID() const;
 
-        const std::string& getWFName() const;
+        const std::string &getWFName() const;
 
         double getFlops() const;
 
@@ -142,7 +142,7 @@ namespace wrench {
 
         std::string getExecutionHost() const;
 
-        std::string getPhysicalExecutionHost()const ;
+        std::string getPhysicalExecutionHost() const;
 
         WorkflowTask::State getState() const;
 
@@ -287,6 +287,13 @@ namespace wrench {
 
         // Private constructor (called by Workflow)
         WorkflowTask(std::string id,
+                     double t,
+                     unsigned long min_num_cores,
+                     unsigned long max_num_cores,
+                     double memory_requirement);
+
+        WorkflowTask(std::string id,
+                     std::string wfName,
                      double t,
                      unsigned long min_num_cores,
                      unsigned long max_num_cores,

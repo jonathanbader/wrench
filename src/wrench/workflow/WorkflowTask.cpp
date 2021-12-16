@@ -26,6 +26,32 @@ namespace wrench {
      * @brief Constructor
      *
      * @param id: the task id
+     * @param flops: the task's number of flops
+     * @param min_cores: the minimum number of cores required for running the task
+     * @param max_cores: the maximum number of cores that the task can use (infinity: ULONG_MAX)
+     * @param spec: the multi-core parallel performance model
+     * @param memory_requirement: memory_manager_service requirement in bytes
+     */
+    WorkflowTask::WorkflowTask(const std::string id, const double flops, const unsigned long min_num_cores,
+                               const unsigned long max_num_cores,
+                               const double memory_requirement) :
+            id(id), color(""), flops(flops),
+            min_num_cores(min_num_cores),
+            max_num_cores(max_num_cores),
+            memory_requirement(memory_requirement),
+            execution_host(""),
+            visible_state(WorkflowTask::State::READY),
+            upcoming_visible_state(WorkflowTask::State::UNKNOWN),
+            internal_state(WorkflowTask::InternalState::TASK_READY),
+            job(nullptr) {
+        // The default is that the task is perfectly parallelizable
+        this->parallel_model = ParallelModel::CONSTANTEFFICIENCY(1.0);
+    }
+
+    /**
+     * @brief Constructor
+     *
+     * @param id: the task id
      * @param wfname: the name of the workflow
      * @param flops: the task's number of flops
      * @param min_cores: the minimum number of cores required for running the task

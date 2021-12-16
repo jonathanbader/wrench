@@ -41,6 +41,11 @@ namespace wrench {
                               unsigned long max_num_cores,
                               double memory_requirement);
 
+        WorkflowTask *addTask(std::string id, std::string wfName, double flops,
+                              unsigned long min_num_cores,
+                              unsigned long max_num_cores,
+                              double memory_requirement);
+
         void removeTask(WorkflowTask *task);
 
         void removeFile(WorkflowFile *file);

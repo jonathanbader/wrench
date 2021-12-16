@@ -107,7 +107,7 @@ namespace wrench {
             for (auto runtime:runtimes) {
                 // skip if namespace match
                 std::string ns = runtime["namespace"];
-                if (ns.find(task.getWFName()) == std::string::npos) {
+                if (ns.find(task->getWFName()) == std::string::npos) {
                     continue;
                 }
                 // skip if machine typ mismatch
