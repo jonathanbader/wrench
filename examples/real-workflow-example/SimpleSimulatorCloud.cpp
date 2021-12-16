@@ -31,13 +31,6 @@ static bool ends_with(const std::string &str, const std::string &suffix) {
  * @return 0 if the simulation has successfully completed
  */
 int main(int argc, char **argv) {
-
-    // getting CSV
-    rapidcsv::Document doc("rankExports/ranks_methylseq_reg.csv");
-    std::cout << doc.GetCell<std::string>("rank", 1) << std::endl;
-    std::cout << doc.GetCell<std::string>("nodeName", 1) << std::endl;
-    RankLookup test(doc);
-    RankLookup test2 = test.filter("nodeName", "z1d.2xlarge");
     /*
      * Declaration of the top-level WRENCH simulation object
      */
@@ -77,6 +70,12 @@ int main(int argc, char **argv) {
     }
     std::cerr << "The workflow has " << workflow->getNumberOfTasks() << " tasks " << std::endl;
     std::cerr.flush();
+
+    // getting CSV
+    std::string modelType = "reg"; // TODO: get this as a parameter?
+    rapidcsv::Document doc("rankExports/ranks_" + workflow->getWFName() + "_"  + modelType + ".csv");
+    RankLookup rankLookup(doc);
+    RankLookup test2 = rankLookup.filter("nodeName", "z1d.2xlarge");
 
     /* Reading and parsing the platform description file to instantiate a simulated platform */
     std::cerr << "Instantiating SimGrid platform..." << std::endl;
@@ -145,7 +144,7 @@ int main(int argc, char **argv) {
      */
     auto wms = simulation.add(
             new wrench::SimpleWMS(std::unique_ptr<wrench::CloudStandardJobScheduler>(
-                                          new wrench::CloudStandardJobScheduler(storage_service)),
+                                          new wrench::CloudStandardJobScheduler(storage_service, rankLookup)),
                                   nullptr, compute_services, storage_services, wms_host));
 
     wms->addWorkflow(workflow);

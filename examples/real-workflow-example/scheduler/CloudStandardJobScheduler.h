@@ -12,6 +12,7 @@
 #define WRENCH_EXAMPLE_CLOUDSCHEDULER_H
 
 #include <wrench-dev.h>
+#include "../RankLookup.h"
 
 namespace wrench {
 
@@ -22,8 +23,8 @@ namespace wrench {
 
 
     public:
-        explicit CloudStandardJobScheduler(std::shared_ptr<StorageService> default_storage_service) :
-                default_storage_service(default_storage_service) {}
+        explicit CloudStandardJobScheduler(std::shared_ptr<StorageService> default_storage_service, RankLookup rankLookup) :
+                default_storage_service(default_storage_service), rankLookup(rankLookup) {}
 
         /***********************/
         /** \cond DEVELOPER    */
@@ -40,6 +41,7 @@ namespace wrench {
         std::vector<std::string> execution_hosts;
         std::shared_ptr<StorageService> default_storage_service;
         std::vector<std::shared_ptr<BareMetalComputeService>> compute_services_running_on_vms;
+        RankLookup rankLookup;
     };
 }
 
