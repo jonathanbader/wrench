@@ -259,6 +259,7 @@ namespace wrench {
 
             // Create the task
             // If the DAX says num_procs = x, then we set min_cores=1, max_cores=x, ram = 0.0
+            workflow->setWFName(wfname); // TODO: prob not the correct place to set this
             task = workflow->addTask(id, wfname, runtime * flop_rate, min_num_cores, max_num_cores, 0.0);
 
             // Go through the children "uses" nodes

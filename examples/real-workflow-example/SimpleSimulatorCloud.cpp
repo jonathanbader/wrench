@@ -33,10 +33,11 @@ static bool ends_with(const std::string &str, const std::string &suffix) {
 int main(int argc, char **argv) {
 
     // getting CSV
-    rapidcsv::Document doc("rankExports/ranks_methylseq_Stochastic Gradient Descent_3.csv");
+    rapidcsv::Document doc("rankExports/ranks_methylseq_reg.csv");
     std::cout << doc.GetCell<std::string>("rank", 1) << std::endl;
+    std::cout << doc.GetCell<std::string>("nodeName", 1) << std::endl;
     RankLookup test(doc);
-    RankLookup test2 = test.filter("rank", 1);
+    RankLookup test2 = test.filter("nodeName", "z1d.2xlarge");
     /*
      * Declaration of the top-level WRENCH simulation object
      */

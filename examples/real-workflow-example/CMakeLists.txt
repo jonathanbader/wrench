@@ -16,7 +16,7 @@ set(SOURCE_FILES
         )
 
 # cloud example
-set(APP_CLOUD_FILES rapidcsv.h RankLookup.h RankLookup.cpp SimpleSimulatorCloud.cpp)
+set(APP_CLOUD_FILES rapidcsv.h RankLookup.h SimpleSimulatorCloud.cpp)
 add_executable(wrench-example-real-workflow-cloud ${SOURCE_FILES} ${APP_CLOUD_FILES})
 if (ENABLE_BATSCHED)
     find_library(ZMQ_LIBRARY NAMES zmq)

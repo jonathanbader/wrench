@@ -36,6 +36,14 @@ namespace wrench {
     public:
         Workflow();
 
+        void setWFName(std::string wfName) {
+            this->wfName = wfName;
+        };
+
+        std::string getWFName() {
+            return this->wfName;
+        };
+
         WorkflowTask *addTask(std::string, double flops,
                               unsigned long min_num_cores,
                               unsigned long max_num_cores,
@@ -59,6 +67,7 @@ namespace wrench {
         static double getSumFlops(const std::vector<WorkflowTask *> tasks);
 
         void addControlDependency(WorkflowTask *src, WorkflowTask *dest, bool redundant_dependencies = false);
+
         void removeControlDependency(WorkflowTask *src, WorkflowTask *dest);
 
         unsigned long getNumberOfTasks();
@@ -70,22 +79,35 @@ namespace wrench {
         void exportToEPS(std::string);
 
         std::vector<WorkflowFile *> getFiles() const;
+
         std::map<std::string, WorkflowFile *> getFileMap() const;
+
         std::vector<WorkflowFile *> getInputFiles() const;
+
         std::map<std::string, WorkflowFile *> getInputFileMap() const;
+
         std::vector<WorkflowFile *> getOutputFiles() const;
+
         std::map<std::string, WorkflowFile *> getOutputFileMap() const;
 
         std::vector<WorkflowTask *> getTasks();
+
         std::map<std::string, WorkflowTask *> getTaskMap();
+
         std::map<std::string, WorkflowTask *> getEntryTaskMap() const;
+
         std::vector<WorkflowTask *> getEntryTasks() const;
+
         std::map<std::string, WorkflowTask *> getExitTaskMap() const;
+
         std::vector<WorkflowTask *> getExitTasks() const;
 
         std::vector<WorkflowTask *> getTaskParents(const WorkflowTask *task);
-        long getTaskNumberOfParents(const  WorkflowTask *task);
+
+        long getTaskNumberOfParents(const WorkflowTask *task);
+
         std::vector<WorkflowTask *> getTaskChildren(const WorkflowTask *task);
+
         long getTaskNumberOfChildren(const WorkflowTask *task);
 
         bool pathExists(const WorkflowTask *src, const WorkflowTask *dst);
@@ -112,6 +134,7 @@ namespace wrench {
         /** \cond INTERNAL     */
         /***********************/
         std::shared_ptr<WorkflowExecutionEvent> waitForNextExecutionEvent();
+
         std::shared_ptr<WorkflowExecutionEvent> waitForNextExecutionEvent(double timeout);
 
         std::string getCallbackMailbox();
@@ -127,7 +150,9 @@ namespace wrench {
 
         friend class WorkflowTask;
 
-        struct Vertex{ WorkflowTask *task;};
+        struct Vertex {
+            WorkflowTask *task;
+        };
         typedef boost::adjacency_list<boost::listS, boost::vecS, boost::directedS, Vertex> DAG;
         typedef boost::graph_traits<DAG>::vertex_descriptor vertex_t;
 
@@ -140,6 +165,8 @@ namespace wrench {
         std::string callback_mailbox;
         ComputeService *parent_compute_service; // The compute service to which the job was submitted, if any
         Simulation *simulation; // a ptr to the simulation so that the simulation can obtain simulation timestamps for workflow tasks
+
+        std::string wfName;
     };
 };
 
