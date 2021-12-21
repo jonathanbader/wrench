@@ -9,8 +9,10 @@
  */
 
 #include "CloudStandardJobScheduler.h"
+#include <wrench/util/UnitParser.h>
 
 #include <fstream>
+#include <algorithm>
 
 #include <nlohmann/json.hpp>
 //#include <climits>
@@ -46,8 +48,16 @@ namespace wrench {
         // read runtimes_pp.json
         std::ifstream ifs("runtimes_pp.json");
         nlohmann::json runtimes = nlohmann::json::parse(ifs);
-
         std::cout << "Number of items in runtimes: " << runtimes.size() << std::endl;
+
+        // define flop rate
+        double flop_rate;
+
+        try {
+            flop_rate = UnitParser::parse_compute_speed("1Gf");
+        } catch (std::invalid_argument &e) {
+            throw;
+        }
 
         WRENCH_INFO("There are %ld ready tasks to schedule", tasks.size());
 
@@ -106,21 +116,38 @@ namespace wrench {
             // loop over runtimes
             for (auto runtime:runtimes) {
                 // skip if namespace match
-                std::string ns = runtime["namespace"];
+                std::string ns = runtime["wfName"];
                 if (ns.find(task->getWFName()) == std::string::npos) {
                     continue;
                 }
+
+                // parse instance name from
                 // skip if machine typ mismatch
-                
                 if (runtime["instanceType"] != "") {
                     continue;
                 }
                 
-                // if wfname match
-                if (runtime["wfName"] != "") {
-                    // convert runtime to flops runtime(unit?) * flops (1000GF)
+                // remove underscore and convert to lower
+                std::string taskname = runtime["taskName"];
+                taskname.erase( remove(taskname.begin(), taskname.end(), '_'), taskname.end() );
+                std::transform(taskname.begin(), taskname.end(), taskname.begin(), [](unsigned char c){ return std::tolower(c); });
+
+                // remove underscore and convert to lower
+                std::string taskNameDax = task->getID();
+                taskNameDax.erase( remove(taskNameDax.begin(), taskNameDax.end(), '_'), taskNameDax.end() );
+                std::transform(taskNameDax.begin(), taskNameDax.end(), taskNameDax.begin(), [](unsigned char c){ return std::tolower(c); });
+                
+                // if taskname matches
+                if (taskNameDax.find(taskname) != std::string::npos) {
+                    // get runtime of task in seconds
+                    std::string realtime = runtime["realtime"];
+                    double rt = std::stod(realtime) / 1000.0;
+
+                    // convert runtime to flops runtime(ms) * flops (1000GF)
+                    double flops = rt * flop_rate;
+
                     // set flops on task (needs setter, since flops are private)
-                    continue;
+                    task->setFlops(flops);
                 }
                     
             }
