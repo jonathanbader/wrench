@@ -14,7 +14,6 @@
 #include <fstream>
 #include <algorithm>
 
-#include <nlohmann/json.hpp>
 //#include <climits>
 //#include <numeric>
 
@@ -44,11 +43,6 @@ namespace wrench {
         if (cloud_service == nullptr) {
             throw std::runtime_error("This example Cloud Scheduler can only handle a cloud service");
         }
-
-        // read runtimes_pp.json
-        std::ifstream ifs("runtimes_pp.json");
-        nlohmann::json runtimes = nlohmann::json::parse(ifs);
-        std::cout << "Number of items in runtimes: " << runtimes.size() << std::endl;
 
         // define flop rate
         double flop_rate;

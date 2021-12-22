@@ -14,6 +14,7 @@
 #include "scheduler/CloudStandardJobScheduler.h"
 #include "rapidcsv.h"
 #include "RankLookup.h"
+#include <nlohmann/json.hpp>
 #include <wrench/tools/pegasus/PegasusWorkflowParser.h>
 #include <fstream>
 
@@ -76,6 +77,11 @@ int main(int argc, char **argv) {
     rapidcsv::Document doc("rankExports/ranks_" + workflow->getWFName() + "_"  + modelType + ".csv");
     RankLookup rankLookup(doc);
     RankLookup test2 = rankLookup.filter("nodeName", "z1d.2xlarge");
+
+    // getting runtimes json
+    std::ifstream ifs("runtimes_pp.json");
+    nlohmann::json runtimes = nlohmann::json::parse(ifs);
+    std::cout << "Number of items in runtimes: " << runtimes.size() << std::endl;    
 
     /* Reading and parsing the platform description file to instantiate a simulated platform */
     std::cerr << "Instantiating SimGrid platform..." << std::endl;
@@ -144,7 +150,7 @@ int main(int argc, char **argv) {
      */
     auto wms = simulation.add(
             new wrench::SimpleWMS(std::unique_ptr<wrench::CloudStandardJobScheduler>(
-                                          new wrench::CloudStandardJobScheduler(storage_service, rankLookup)),
+                                          new wrench::CloudStandardJobScheduler(storage_service, rankLookup, runtimes)),
                                   nullptr, compute_services, storage_services, wms_host));
 
     wms->addWorkflow(workflow);

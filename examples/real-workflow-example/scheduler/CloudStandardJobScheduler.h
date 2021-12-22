@@ -13,6 +13,7 @@
 
 #include <wrench-dev.h>
 #include "../RankLookup.h"
+#include <nlohmann/json.hpp>
 
 namespace wrench {
 
@@ -23,8 +24,8 @@ namespace wrench {
 
 
     public:
-        explicit CloudStandardJobScheduler(std::shared_ptr<StorageService> default_storage_service, RankLookup rankLookup) :
-                default_storage_service(default_storage_service), rankLookup(rankLookup) {}
+        explicit CloudStandardJobScheduler(std::shared_ptr<StorageService> default_storage_service, RankLookup rankLookup, nlohmann::json runtimes) :
+                default_storage_service(default_storage_service), rankLookup(rankLookup), runtimes(runtimes) {}
 
         /***********************/
         /** \cond DEVELOPER    */
@@ -42,6 +43,7 @@ namespace wrench {
         std::shared_ptr<StorageService> default_storage_service;
         std::vector<std::shared_ptr<BareMetalComputeService>> compute_services_running_on_vms;
         RankLookup rankLookup;
+        nlohmann::json runtimes;
     };
 }
 
