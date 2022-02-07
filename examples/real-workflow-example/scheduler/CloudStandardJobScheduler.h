@@ -42,6 +42,7 @@ namespace wrench {
         std::vector<std::string> execution_hosts;
         std::shared_ptr<StorageService> default_storage_service;
         std::vector<std::shared_ptr<BareMetalComputeService>> compute_services_running_on_vms;
+        std::map<std::string, std::vector<std::shared_ptr<BareMetalComputeService>>> host_vm_lookup;
         RankLookup rankLookup;
         nlohmann::json runtimes;
     };

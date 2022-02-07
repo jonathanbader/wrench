@@ -139,6 +139,8 @@ namespace wrench {
         /** \endcond          **/
         /***********************/
 
+        shared_ptr<BareMetalComputeService> startVM(const string &vm_name, const string &pm_name);
+
     protected:
         /***********************/
         /** \cond INTERNAL    */

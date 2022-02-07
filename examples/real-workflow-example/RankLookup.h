@@ -56,6 +56,26 @@ public:
         return this->_toMap<K, V>(this->mDoc.GetColumn<K>(col1), this->mDoc.GetColumn<V>(col2));
     }
 
+    std::vector<std::string> getRankingForTask(std::string taskName) {
+        auto filt = this->filter("taskName", taskName);
+        auto mapped = filt.toMap<std::string, double>("nodeName", "rank");
+        std::vector<std::string> out;
+        while (not mapped.empty()) {
+            double min_rank = 100.0;
+            std::string best_host = "";
+            for (auto const &pair: mapped) {
+                auto host = pair.first;
+                auto rank = pair.second;
+                if (rank < min_rank) {
+                    min_rank = rank;
+                    best_host = host;
+                }
+            }
+            out.push_back(best_host);
+        }
+        return out;
+    }
+
 private:
     rapidcsv::Document mDoc;
 

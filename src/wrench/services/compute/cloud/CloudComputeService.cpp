@@ -224,6 +224,21 @@ namespace wrench {
      * @throw std::invalid_argument
      */
     std::shared_ptr<BareMetalComputeService> CloudComputeService::startVM(const std::string &vm_name) {
+        return this->startVM(vm_name,"");
+    }
+
+    /**
+     * @brief Start a VM
+     *
+     * @param vm_name: the name of the VM
+     * @param pm_name: the name of the physical host
+     *
+     * @return A bare_metal that runs on the VM
+     *
+     * @throw WorkflowExecutionException
+     * @throw std::invalid_argument
+     */
+    std::shared_ptr<BareMetalComputeService> CloudComputeService::startVM(const std::string &vm_name, const std::string &pm_name) {
         if (this->vm_list.find(vm_name) == this->vm_list.end()) {
             throw std::invalid_argument("CloudComputeService::startVM(): Unknown VM name '" + vm_name + "'");
         }
@@ -235,7 +250,7 @@ namespace wrench {
         std::shared_ptr<SimulationMessage> answer_message = sendRequest(
                 answer_mailbox,
                 new CloudComputeServiceStartVMRequestMessage(
-                        answer_mailbox, vm_name, "",
+                        answer_mailbox, vm_name, pm_name,
                         this->getMessagePayloadValue(
                                 CloudComputeServiceMessagePayload::START_VM_REQUEST_MESSAGE_PAYLOAD)));
 

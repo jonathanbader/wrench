@@ -74,14 +74,16 @@ int main(int argc, char **argv) {
 
     // getting CSV
     std::string modelType = "reg"; // TODO: get this as a parameter?
-    rapidcsv::Document doc("rankExports/ranks_" + workflow->getWFName() + "_"  + modelType + ".csv");
+    rapidcsv::Document doc("rankExports/ranks_" + workflow->getWFName() + "_" + modelType + ".csv");
     RankLookup rankLookup(doc);
-    RankLookup test2 = rankLookup.filter("nodeName", "z1d.2xlarge");
+    RankLookup test2 = rankLookup.filter("taskName", "bismark_align");
+    auto test3 = test2.toMap<std::string, float>("nodeName", "rank");
+    std::cerr << test3["z1d.2xlarge"] << std::endl;
 
     // getting runtimes json
     std::ifstream ifs("runtimes_pp.json");
     nlohmann::json runtimes = nlohmann::json::parse(ifs);
-    std::cout << "Number of items in runtimes: " << runtimes.size() << std::endl;    
+    std::cout << "Number of items in runtimes: " << runtimes.size() << std::endl;
 
     /* Reading and parsing the platform description file to instantiate a simulated platform */
     std::cerr << "Instantiating SimGrid platform..." << std::endl;
@@ -110,8 +112,34 @@ int main(int argc, char **argv) {
     /* Construct a list of hosts (in the example only one host) on which the
      * cloud service will be able to run tasks
      */
-    std::string executor_host = "Tremblay";
-    std::vector<std::string> execution_hosts = {executor_host};
+    // TODO make these dynamic
+    std::vector<std::string> execution_hosts = {"m5.large",
+                                                "m5.xlarge",
+                                                "m5.2xlarge",
+                                                "m5a.large",
+                                                "m5a.xlarge",
+                                                "m5a.2xlarge",
+                                                "m5zn.large",
+                                                "m5zn.xlarge",
+                                                "m5zn.2xlarge",
+                                                "c5.xlarge",
+                                                "c5.2xlarge",
+                                                "c5a.xlarge",
+                                                "c5a.2xlarge",
+                                                "r5.large",
+                                                "r5.xlarge",
+                                                "r5.2xlarge",
+                                                "r5a.large",
+                                                "r5a.xlarge",
+                                                "r5a.2xlarge",
+                                                "d3.xlarge",
+                                                "d3.2xlarge",
+                                                "i3.large",
+                                                "i3.xlarge",
+                                                "i3.2xlarge",
+                                                "z1d.large",
+                                                "z1d.xlarge",
+                                                "z1d.2xlarge"};
 
     /* Create a list of compute services that will be used by the WMS */
     std::set<std::shared_ptr<wrench::ComputeService>> compute_services;
