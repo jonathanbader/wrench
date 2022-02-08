@@ -3,7 +3,7 @@
 <platform version="4.1">
     <zone id="AS0" routing="Full">
         <!-- Dummies for storage, wms and cloud service -->
-        <host id="Tremblay" speed="1000Gf" core="4"/>
+        <host id="Tremblay" speed="1000Gf" core="20"/>
         <host id="Jupiter" speed="1000Gf" core="2"/>
         <host id="Fafard" speed="1000Gf" core="1">
             <disk id="large_disk" read_bw="40MBps" write_bw="40MBps">

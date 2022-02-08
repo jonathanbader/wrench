@@ -192,20 +192,32 @@ namespace wrench {
 
             std::shared_ptr<BareMetalComputeService> picked_vm_cs = nullptr;
             auto prefs = this->rankLookup.getRankingForTask(task->getName());
-            for (auto const &host: prefs) {
-                if (picked_vm_cs != nullptr) {
-                    break;
-                }
-                // see if this host has available vms
-                for (auto const &vm: this->host_vm_lookup.at(host)) {
+            if (prefs.empty()) {
+                std::cerr << "Task '" << task->getName()
+                          << "' did not have any rankings, running it on Tremblay (dummy)" << std::endl;
+                // see if Tremblay has available vms
+                for (auto const &vm: this->host_vm_lookup.at("Tremblay")) {
                     // if this vm has resources to handle the task
                     if (vm->getTotalNumIdleCores() >= 2) {
                         picked_vm_cs = vm;
                         break;
                     }
                 }
+            } else {
+                for (auto const &host: prefs) {
+                    if (picked_vm_cs != nullptr) {
+                        break;
+                    }
+                    // see if this host has available vms
+                    for (auto const &vm: this->host_vm_lookup.at(host)) {
+                        // if this vm has resources to handle the task
+                        if (vm->getTotalNumIdleCores() >= 2) {
+                            picked_vm_cs = vm;
+                            break;
+                        }
+                    }
+                }
             }
-
             if (picked_vm_cs == nullptr) {
                 std::cerr << "Skipped ready task '" << task->getName() << "'" << std::endl;
                 continue;

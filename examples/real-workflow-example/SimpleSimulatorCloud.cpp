@@ -113,7 +113,8 @@ int main(int argc, char **argv) {
      * cloud service will be able to run tasks
      */
     // TODO make these dynamic
-    std::vector<std::string> execution_hosts = {"m5.large",
+    std::vector<std::string> execution_hosts = {"Tremblay", // Tremblay is the dummy for all tasks that do not have a ranking
+                                                "m5.large",
                                                 "m5.xlarge",
                                                 "m5.2xlarge",
                                                 "m5a.large",
