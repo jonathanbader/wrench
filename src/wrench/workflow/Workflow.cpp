@@ -68,6 +68,7 @@ namespace wrench {
 
         return task;
     }
+
     /**
      * @brief Create and add a new computational task to the workflow
      *
@@ -101,6 +102,54 @@ namespace wrench {
 
         // Create the WorkflowTask object
         auto task = new WorkflowTask(id, wfName, flops, min_num_cores, max_num_cores,
+                                     memory_requirement);
+        // Associate the workflow to the task
+        task->workflow = this;
+
+        task->toplevel = 0; // upon creation, a task is an exit task
+
+        // Create a DAG node for it
+        this->dag.addVertex(task);
+
+        tasks[task->id] = std::unique_ptr<WorkflowTask>(task); // owner
+
+        return task;
+    }
+
+    /**
+     * @brief Create and add a new computational task to the workflow
+     *
+     * @param id: a unique string id
+     * @param wfName: name of the workflow
+     * @param flops: number of flops
+     * @param min_num_cores: the minimum number of cores required to run the task
+     * @param max_num_cores: the maximum number of cores that can be used by the task (use INT_MAX for infinity)
+     * @param memory_requirement: memory_manager_service requirement (in bytes)
+     *
+     * @return the WorkflowTask instance
+     *
+     * @throw std::invalid_argument
+     */
+    WorkflowTask *Workflow::addTask(const std::string id,
+                                    const std::string name,
+                                    const std::string wfName,
+                                    double flops,
+                                    unsigned long min_num_cores,
+                                    unsigned long max_num_cores,
+                                    double memory_requirement) {
+
+
+        if ((flops < 0.0) || (min_num_cores < 1) || (min_num_cores > max_num_cores) || (memory_requirement < 0)) {
+            throw std::invalid_argument("WorkflowTask::addTask(): Invalid argument");
+        }
+
+        // Check that the task doesn't really exist
+        if (tasks.find(id) != tasks.end()) {
+            throw std::invalid_argument("Workflow::addTask(): Task ID '" + id + "' already exists");
+        }
+
+        // Create the WorkflowTask object
+        auto task = new WorkflowTask(id, name, wfName, flops, min_num_cores, max_num_cores,
                                      memory_requirement);
         // Associate the workflow to the task
         task->workflow = this;

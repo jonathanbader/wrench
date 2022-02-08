@@ -145,6 +145,10 @@ namespace wrench {
         /** \endcond           */
         /***********************/
 
+        WorkflowTask *
+        addTask(const std::string id, const std::string name, const std::string wfName, double flops, unsigned long min_num_cores,
+                unsigned long max_num_cores, double memory_requirement);
+
     private:
         friend class WMS;
 
@@ -167,6 +171,7 @@ namespace wrench {
         Simulation *simulation; // a ptr to the simulation so that the simulation can obtain simulation timestamps for workflow tasks
 
         std::string wfName;
+
     };
 };
 

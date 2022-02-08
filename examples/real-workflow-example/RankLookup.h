@@ -71,6 +71,7 @@ public:
                     best_host = host;
                 }
             }
+            mapped.erase(best_host);
             out.push_back(best_host);
         }
         return out;

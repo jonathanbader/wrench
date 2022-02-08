@@ -11,6 +11,9 @@
 #include <wrench-dev.h>
 #include <wrench/util/UnitParser.h>
 
+#include <boost/tokenizer.hpp>
+#include <boost/algorithm/string/classification.hpp>
+#include <boost/algorithm/string/split.hpp>
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -69,7 +72,7 @@ namespace wrench {
             if (it.key() == "jobs") {
                 std::vector<nlohmann::json> jobs = it.value();
 
-                for (auto &job : jobs) {
+                for (auto &job: jobs) {
                     std::string name = job.at("name");
                     double runtime = job.at("runtime");
                     unsigned long min_num_cores, max_num_cores;
@@ -95,7 +98,8 @@ namespace wrench {
                     }
 
                     if (type != "compute") {
-                        throw std::invalid_argument("Workflow::createWorkflowFromJson(): Job " + name + " has uknown type " + type);
+                        throw std::invalid_argument(
+                                "Workflow::createWorkflowFromJson(): Job " + name + " has uknown type " + type);
                     }
 
                     task = workflow->addTask(name, runtime * flop_rate, min_num_cores, max_num_cores, 0.0);
@@ -131,7 +135,7 @@ namespace wrench {
                     // task files
                     std::vector<nlohmann::json> files = job.at("files");
 
-                    for (auto &f : files) {
+                    for (auto &f: files) {
                         double size = f.at("size");
                         std::string link = f.at("link");
                         std::string id = f.at("name");
@@ -153,7 +157,7 @@ namespace wrench {
                 }
 
                 // since tasks may not be ordered in the JSON file, we need to iterate over all tasks again
-                for (auto &job : jobs) {
+                for (auto &job: jobs) {
                     try {
                         task = workflow->getTaskByID(job.at("name"));
                     } catch (std::invalid_argument &e) {
@@ -162,7 +166,7 @@ namespace wrench {
                     }
                     std::vector<nlohmann::json> parents = job.at("parents");
                     // task dependencies
-                    for (auto &parent : parents) {
+                    for (auto &parent: parents) {
                         // Ignore transfer jobs declared as parents
                         if (ignored_transfer_jobs.find(parent) != ignored_transfer_jobs.end()) {
                             continue;
@@ -190,7 +194,8 @@ namespace wrench {
     /**
      * Documention in .h file
      */
-    Workflow *PegasusWorkflowParser::createExecutableWorkflowFromJSON(const std::string &filename, const std::string &reference_flop_rate,
+    Workflow *PegasusWorkflowParser::createExecutableWorkflowFromJSON(const std::string &filename,
+                                                                      const std::string &reference_flop_rate,
                                                                       bool redundant_dependencies,
                                                                       unsigned long min_cores_per_task,
                                                                       unsigned long max_cores_per_task,
@@ -201,11 +206,12 @@ namespace wrench {
     /**
       * Documention in .h file
       */
-    Workflow *PegasusWorkflowParser::createWorkflowFromDAX(const std::string &filename, const std::string &reference_flop_rate,
-                                                           bool redundant_dependencies,
-                                                           unsigned long min_cores_per_task,
-                                                           unsigned long max_cores_per_task,
-                                                           bool enforce_num_cores) {
+    Workflow *
+    PegasusWorkflowParser::createWorkflowFromDAX(const std::string &filename, const std::string &reference_flop_rate,
+                                                 bool redundant_dependencies,
+                                                 unsigned long min_cores_per_task,
+                                                 unsigned long max_cores_per_task,
+                                                 bool enforce_num_cores) {
 
         pugi::xml_document dax_tree;
 
@@ -231,8 +237,13 @@ namespace wrench {
             WorkflowTask *task;
             // Get the job attributes
             std::string id = job.attribute("id").value();
-            std::string name = job.attribute("name").value();
             std::string wfname = job.attribute("namespace").value();
+
+            std::string name = job.attribute("name").value();
+            std::vector<std::string> tokens;
+            boost::tokenizer<> tok(name);
+            boost::split(tokens, name, boost::is_any_of(" "));
+
             double runtime = std::strtod(job.attribute("runtime").value(), nullptr);
             unsigned long min_num_cores;
             unsigned long max_num_cores;
@@ -242,7 +253,7 @@ namespace wrench {
             // Overwrite the default is we don't enforce the default values AND the DAX specifies core numbers
             if (not enforce_num_cores) {
                 bool found_one = false;
-                for (std::string tag : {"numprocs", "num_procs", "numcores", "num_cores"}) {
+                for (std::string tag: {"numprocs", "num_procs", "numcores", "num_cores"}) {
                     if (job.attribute(tag.c_str())) {
                         if (found_one) {
                             throw std::invalid_argument(
@@ -260,7 +271,7 @@ namespace wrench {
             // Create the task
             // If the DAX says num_procs = x, then we set min_cores=1, max_cores=x, ram = 0.0
             workflow->setWFName(wfname); // TODO: prob not the correct place to set this
-            task = workflow->addTask(id, wfname, runtime * flop_rate, min_num_cores, max_num_cores, 0.0);
+            task = workflow->addTask(id, tokens[0], wfname, runtime * flop_rate, min_num_cores, max_num_cores, 0.0);
 
             // Go through the children "uses" nodes
             for (pugi::xml_node uses = job.child("uses"); uses; uses = uses.next_sibling("uses")) {

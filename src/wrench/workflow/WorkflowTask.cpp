@@ -76,6 +76,34 @@ namespace wrench {
     }
 
     /**
+     * @brief Constructor
+     *
+     * @param id: the task id
+     * @param name: the name of the task
+     * @param wfname: the name of the workflow
+     * @param flops: the task's number of flops
+     * @param min_cores: the minimum number of cores required for running the task
+     * @param max_cores: the maximum number of cores that the task can use (infinity: ULONG_MAX)
+     * @param spec: the multi-core parallel performance model
+     * @param memory_requirement: memory_manager_service requirement in bytes
+     */
+    WorkflowTask::WorkflowTask(const std::string id, const std::string name, const std::string wfname, const double flops, const unsigned long min_num_cores,
+                               const unsigned long max_num_cores,
+                               const double memory_requirement) :
+            id(id), wfname(wfname), name(name), color(""), flops(flops),
+            min_num_cores(min_num_cores),
+            max_num_cores(max_num_cores),
+            memory_requirement(memory_requirement),
+            execution_host(""),
+            visible_state(WorkflowTask::State::READY),
+            upcoming_visible_state(WorkflowTask::State::UNKNOWN),
+            internal_state(WorkflowTask::InternalState::TASK_READY),
+            job(nullptr) {
+        // The default is that the task is perfectly parallelizable
+        this->parallel_model = ParallelModel::CONSTANTEFFICIENCY(1.0);
+    }
+
+    /**
      * @brief Add an input file to the task
      *
      * @param file: the file
@@ -148,10 +176,19 @@ namespace wrench {
     /**
      * @brief Get the wfname of the task
      *
-     * @return an wfname as a string
+     * @return a wfname as a string
      */
     const std::string& WorkflowTask::getWFName() const {
         return this->wfname;
+    }
+
+    /**
+     * @brief Get the name of the task
+     *
+     * @return a name as a string
+     */
+    const std::string& WorkflowTask::getName() const {
+        return this->name;
     }
 
     /**

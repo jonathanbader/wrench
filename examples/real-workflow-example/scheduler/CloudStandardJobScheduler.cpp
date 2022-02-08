@@ -54,8 +54,7 @@ namespace wrench {
         }
 
         // create all vms (if possible) and keep a map of which is running where
-        if (true/*compute_service->isThereAtLeastOneHostWithIdleResources(2, 0)*/) {
-            WRENCH_INFO("Setting up VMs");
+        if (true/*compute_service->isThereAtLeastOneHostWithIdleResources(2, 0)*/) { WRENCH_INFO("Setting up VMs");
             std::cerr << "Setting up VMs" << std::endl;
             auto availableCores = cloud_service->getPerHostNumIdleCores();
             auto memCaps = cloud_service->getMemoryCapacity();
@@ -74,8 +73,7 @@ namespace wrench {
             }
         }
 
-        std::cerr << "VMs OK" << std::endl;
-        WRENCH_INFO("There are %ld ready tasks to schedule", tasks.size());
+        std::cerr << "VMs OK" << std::endl;WRENCH_INFO("There are %ld ready tasks to schedule", tasks.size());
 
 /*
         for (auto task: tasks) {
@@ -193,19 +191,23 @@ namespace wrench {
             WRENCH_INFO("Trying to schedule ready task '%s'", task->getID().c_str());
 
             std::shared_ptr<BareMetalComputeService> picked_vm_cs = nullptr;
-            auto prefs = this->rankLookup.getRankingForTask(task->getID());
+            auto prefs = this->rankLookup.getRankingForTask(task->getName());
             for (auto const &host: prefs) {
+                if (picked_vm_cs != nullptr) {
+                    break;
+                }
                 // see if this host has available vms
                 for (auto const &vm: this->host_vm_lookup.at(host)) {
                     // if this vm has resources to handle the task
                     if (vm->getTotalNumIdleCores() >= 2) {
                         picked_vm_cs = vm;
+                        break;
                     }
                 }
             }
 
             if (picked_vm_cs == nullptr) {
-                std::cerr << "Skipped a ready task" << std::endl;
+                std::cerr << "Skipped ready task '" << task->getName() << "'" << std::endl;
                 continue;
             }
 
@@ -219,7 +221,7 @@ namespace wrench {
 
                 // parse instance name from
                 // skip if machine typ mismatch
-                if (runtime["instanceType"] != "") {
+                if (runtime["instanceType"] != picked_vm_cs->getHostname()) {
                     continue;
                 }
 
@@ -230,7 +232,7 @@ namespace wrench {
                                [](unsigned char c) { return std::tolower(c); });
 
                 // remove underscore and convert to lower
-                std::string taskNameDax = task->getID();
+                std::string taskNameDax = task->getName();
                 taskNameDax.erase(remove(taskNameDax.begin(), taskNameDax.end(), '_'), taskNameDax.end());
                 std::transform(taskNameDax.begin(), taskNameDax.end(), taskNameDax.begin(),
                                [](unsigned char c) { return std::tolower(c); });
@@ -250,7 +252,7 @@ namespace wrench {
 
             }
 
-            WRENCH_INFO("Submitting task '%s' for execution on a VM", task->getID().c_str());
+            WRENCH_INFO("Submitting task '%s' for execution on a VM", task->getName().c_str());
 
             // Submitting the task
             std::map<WorkflowFile *, std::shared_ptr<FileLocation>> file_locations;

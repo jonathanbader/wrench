@@ -257,11 +257,14 @@ namespace wrench {
         /** \endcond           */
         /***********************/
 
+        const std::string &getName() const;
+
     private:
         friend class Workflow;
 
         std::string id;                    // Task ID
         std::string wfname;
+        std::string name;
         std::string cluster_id;            // ID for clustered task
         std::string color;                 // A RGB color formatted as "#rrggbb"
         double flops;                      // Number of flops
@@ -299,12 +302,21 @@ namespace wrench {
                      unsigned long max_num_cores,
                      double memory_requirement);
 
+        WorkflowTask(std::string id,
+                     std::string name,
+                     std::string wfName,
+                     double t,
+                     unsigned long min_num_cores,
+                     unsigned long max_num_cores,
+                     double memory_requirement);
+
         // Containing job
         WorkflowJob *job;
 
         std::stack<WorkflowTaskExecution> execution_history;
 
         friend class DagOfTasks;
+
     };
 };
 
